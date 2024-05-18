@@ -6,6 +6,7 @@ import org.example.backend.tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.messaging.simp.SimpMessagingTemplate;
 
 import java.util.HashMap;
 import java.util.List;
@@ -17,6 +18,9 @@ import java.util.Map;
 public class UsuarioController {
     @Autowired
     private UsuarioService service;
+    @Autowired
+    private SimpMessagingTemplate template;
+    
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuario) {
@@ -58,6 +62,8 @@ public class UsuarioController {
         usuario.setAprobado(usuarioDetails.getAprobado());
 
         UsuarioEntity updatedUsuario = service.guardar(usuario);
+        this.template.convertAndSend("/topic/user-updated", usuario.getIdUsuario());
+
         return ResponseEntity.ok(usuario);
     }
     @DeleteMapping("/usuarios/{id}")
