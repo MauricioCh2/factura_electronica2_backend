@@ -22,7 +22,12 @@ public class ClienteServiceImpl implements ClienteService{
     }
 
     @Override
-    public void clienteSave(ClienteEntity cliente) {
-        clienteRepository.save(cliente);
+    public ClienteEntity clienteSave(ClienteEntity cliente) {
+        return clienteRepository.save(cliente);
+    }
+
+    @Override
+    public Boolean existsByIdentificacionCAndProveedorC(String idCliente, String idProveedor) {
+        return clienteRepository.existsByIdentificacionCAndProveedorC(idCliente, idProveedor);
     }
 }

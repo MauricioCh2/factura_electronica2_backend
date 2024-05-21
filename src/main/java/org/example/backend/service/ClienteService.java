@@ -9,5 +9,6 @@ import java.util.List;
 public interface ClienteService {
     public Iterable<ClienteEntity> clienteFindAll();
     public Iterable<ClienteEntity> clienteFindAllByProveedorId(String id);
-    void clienteSave(ClienteEntity cliente);
+    ClienteEntity clienteSave(ClienteEntity cliente);
+    public   Boolean existsByIdentificacionCAndProveedorC(String idCliente, String idProveedor);
 }
