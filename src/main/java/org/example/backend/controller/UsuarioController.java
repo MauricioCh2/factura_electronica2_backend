@@ -1,6 +1,8 @@
 package org.example.backend.controller;
 
+import org.example.backend.logic.ClienteEntity;
 import org.example.backend.logic.UsuarioEntity;
+import org.example.backend.service.ClienteService;
 import org.example.backend.service.UsuarioService;
 import org.example.backend.tools;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,6 +19,8 @@ import java.util.Map;
 public class UsuarioController {
     @Autowired
     private UsuarioService service;
+    @Autowired
+    private ClienteService clienteService;
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuario) {
@@ -27,7 +31,15 @@ public class UsuarioController {
             return ResponseEntity.notFound().build();
         }
     }
-
+    @PostMapping("/usuarios/agregarCliente/{id}")
+    public ResponseEntity<ClienteEntity> agregarCliente(@PathVariable String id, @RequestBody ClienteEntity cliente) {
+        if(clienteService.existsByIdentificacionCAndProveedorC(cliente.getIdentificacionC(), id)){
+            return ResponseEntity.badRequest().build();
+        }
+        cliente.setProveedorC(id);
+        ClienteEntity clienteEntity = clienteService.clienteSave(cliente);
+        return ResponseEntity.ok(clienteEntity);
+    }
     @GetMapping("/usuarios")
     public List<UsuarioEntity> listarProveedores() {
         return service.lisarProvedores();
