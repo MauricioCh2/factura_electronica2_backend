@@ -1,6 +1,5 @@
 package org.example.backend.service;
 
-import org.example.backend.data.FacturaRepository;
 import org.example.backend.logic.FacturaEntity;
 
 import java.util.List;

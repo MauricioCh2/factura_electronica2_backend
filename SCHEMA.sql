@@ -21,9 +21,9 @@ alter table usuarios add constraint aprobado_ck Check
 
 create table productos(
                           id_producto INT AUTO_INCREMENT PRIMARY KEY,
-                          nombre varchar(30) not null,
-                          codigo varchar(20) not null,
-                          descripcion varchar(30) not null,
+                          nombre varchar(80) not null,
+                          codigo varchar(10) not null,
+                          descripcion varchar(505) not null,
                           precio FLOAT not null,
                           proveedor_p varchar(20) not null
 );
@@ -31,8 +31,8 @@ create table productos(
 create table clientes (
                           id_cliente INT AUTO_INCREMENT PRIMARY KEY,
                           identificacion_c varchar(20) not null,  -- esto login
-                          nombre_c varchar(30) not null,
-                          correo varchar(20) not null,
+                          nombre_c varchar(100) not null,
+                          correo varchar(25) not null,
                           telefono INTEGER not null,
                           proveedor_c varchar(20) not null
 );
@@ -41,16 +41,18 @@ CREATE TABLE facturas (
                           id_factura INT AUTO_INCREMENT PRIMARY KEY,
                           identificacion_usuario VARCHAR(20) NOT NULL,  -- id del proveedor
                           identificacion_cliente INT NOT NULL,  -- al que esta relacionada la factura
+                          valor_total FLOAT NOT NULL,
                           fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE detalles (
                           id_detalle INT AUTO_INCREMENT PRIMARY KEY,
+                          num_detalle INT NOT NULL,
                           id_fac_detalle INT NOT NULL,
                           codigo_producto INT NOT NULL,
                           cantidad INT NOT NULL,
                           descripcion_detalle VARCHAR(100) NOT NULL,
-                          valor_final FLOAT NOT NULL
+                          valor_roductos FLOAT NOT NULL
 );
 
 alter table usuarios add constraint usuarios_pk primary key (id_usuario);
@@ -94,10 +96,12 @@ insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) 
 insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) values ('555','Juana','juana@gmail.com',333333,'2');
 
 
-INSERT INTO facturas (identificacion_usuario, identificacion_cliente) VALUES ('1', 1);
-INSERT INTO facturas (identificacion_usuario, identificacion_cliente) VALUES ('2', 2);
-INSERT INTO facturas (identificacion_usuario, identificacion_cliente) VALUES ('1', 3);
-INSERT INTO facturas (identificacion_usuario, identificacion_cliente) VALUES ('2', 4);
+INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('1', 1, 450);
+INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('2', 2, 300);
+INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('1', 1, 4000);
+INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('2', 2, 3232);
+INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('3', 1, 213);
+
 
 
 # insert into detalles (id_fac_detalle, codigo_producto, cantidad, descripcion_detalle, valor_final) values (5, 1, 2, 'Queque seco', 3000.0);
@@ -107,3 +111,5 @@ INSERT INTO facturas (identificacion_usuario, identificacion_cliente) VALUES ('2
 
 select * from usuarios;
 select * from facturas;
+select * from productos;
+select * from clientes;

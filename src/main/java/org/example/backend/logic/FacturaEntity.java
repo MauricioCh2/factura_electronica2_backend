@@ -19,6 +19,9 @@ public class FacturaEntity {
     @Column(name = "identificacion_cliente")
     private int identificacionCliente;
     @Basic
+    @Column(name = "valor_total")
+    private double valorTotal;
+    @Basic
     @Column(name = "fecha")
     private Timestamp fecha;
 
@@ -46,6 +49,14 @@ public class FacturaEntity {
         this.identificacionCliente = identificacionCliente;
     }
 
+    public double getValorTotal() {
+        return valorTotal;
+    }
+
+    public void setValorTotal(double valorTotal) {
+        this.valorTotal = valorTotal;
+    }
+
     public Timestamp getFecha() {
         return fecha;
     }
@@ -54,16 +65,27 @@ public class FacturaEntity {
         this.fecha = fecha;
     }
 
+    public FacturaEntity(int idFactura, String identificacionUsuario, int identificacionCliente, double valorTotal, Timestamp fecha) {
+        this.idFactura = idFactura;
+        this.identificacionUsuario = identificacionUsuario;
+        this.identificacionCliente = identificacionCliente;
+        this.valorTotal = valorTotal;
+        this.fecha = fecha;
+    }
+
+    public FacturaEntity() {
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         FacturaEntity that = (FacturaEntity) o;
-        return idFactura == that.idFactura && identificacionCliente == that.identificacionCliente && Objects.equals(identificacionUsuario, that.identificacionUsuario) && Objects.equals(fecha, that.fecha);
+        return idFactura == that.idFactura && identificacionCliente == that.identificacionCliente && Double.compare(valorTotal, that.valorTotal) == 0 && Objects.equals(identificacionUsuario, that.identificacionUsuario) && Objects.equals(fecha, that.fecha);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idFactura, identificacionUsuario, identificacionCliente, fecha);
+        return Objects.hash(idFactura, identificacionUsuario, identificacionCliente, valorTotal, fecha);
     }
 }

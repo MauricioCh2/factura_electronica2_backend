@@ -12,6 +12,9 @@ public class DetalleEntity {
     @Column(name = "id_detalle")
     private int idDetalle;
     @Basic
+    @Column(name = "num_detalle")
+    private int numDetalle;
+    @Basic
     @Column(name = "id_fac_detalle")
     private int idFacDetalle;
     @Basic
@@ -24,8 +27,8 @@ public class DetalleEntity {
     @Column(name = "descripcion_detalle")
     private String descripcionDetalle;
     @Basic
-    @Column(name = "valor_final")
-    private double valorFinal;
+    @Column(name = "valor_roductos")
+    private double valorRoductos;
 
     public int getIdDetalle() {
         return idDetalle;
@@ -33,6 +36,14 @@ public class DetalleEntity {
 
     public void setIdDetalle(int idDetalle) {
         this.idDetalle = idDetalle;
+    }
+
+    public int getNumDetalle() {
+        return numDetalle;
+    }
+
+    public void setNumDetalle(int numDetalle) {
+        this.numDetalle = numDetalle;
     }
 
     public int getIdFacDetalle() {
@@ -67,12 +78,26 @@ public class DetalleEntity {
         this.descripcionDetalle = descripcionDetalle;
     }
 
-    public double getValorFinal() {
-        return valorFinal;
+    public double getValorRoductos() {
+        return valorRoductos;
     }
 
-    public void setValorFinal(double valorFinal) {
-        this.valorFinal = valorFinal;
+    public void setValorRoductos(double valorRoductos) {
+        this.valorRoductos = valorRoductos;
+    }
+
+    public DetalleEntity() {
+
+    }
+
+    public DetalleEntity(int idDetalle, int numDetalle, int idFacDetalle, int codigoProducto, int cantidad, String descripcionDetalle, double valorRoductos) {
+        this.idDetalle = idDetalle;
+        this.numDetalle = numDetalle;
+        this.idFacDetalle = idFacDetalle;
+        this.codigoProducto = codigoProducto;
+        this.cantidad = cantidad;
+        this.descripcionDetalle = descripcionDetalle;
+        this.valorRoductos = valorRoductos;
     }
 
     @Override
@@ -80,11 +105,11 @@ public class DetalleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DetalleEntity that = (DetalleEntity) o;
-        return idDetalle == that.idDetalle && idFacDetalle == that.idFacDetalle && codigoProducto == that.codigoProducto && cantidad == that.cantidad && Double.compare(valorFinal, that.valorFinal) == 0 && Objects.equals(descripcionDetalle, that.descripcionDetalle);
+        return idDetalle == that.idDetalle && numDetalle == that.numDetalle && idFacDetalle == that.idFacDetalle && codigoProducto == that.codigoProducto && cantidad == that.cantidad && Double.compare(valorRoductos, that.valorRoductos) == 0 && Objects.equals(descripcionDetalle, that.descripcionDetalle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetalle, idFacDetalle, codigoProducto, cantidad, descripcionDetalle, valorFinal);
+        return Objects.hash(idDetalle, numDetalle, idFacDetalle, codigoProducto, cantidad, descripcionDetalle, valorRoductos);
     }
 }
