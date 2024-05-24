@@ -1,11 +1,14 @@
 package org.example.backend.controller;
 
+import jakarta.servlet.http.HttpServletResponse;
+import org.example.backend.data.STUB;
 import org.example.backend.logic.ClienteEntity;
 import org.example.backend.logic.UsuarioEntity;
 import org.example.backend.service.ClienteService;
 import org.example.backend.service.UsuarioService;
 import org.example.backend.tools;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,6 +24,9 @@ public class UsuarioController {
     private UsuarioService service;
     @Autowired
     private ClienteService clienteService;
+    private STUB stub = new STUB();
+    @Autowired
+    private HttpServletResponse httpServletResponse;
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuario) {
@@ -47,11 +53,25 @@ public class UsuarioController {
         return service.lisarProvedores();
     }
 
-    //Guarda usuarios
+//    //Guarda usuarios
+//    @PostMapping("/usuarios")
+//    public UsuarioEntity guardarProveedor(@RequestBody UsuarioEntity usuario) {
+//        //request body es para que reciba un objeto en formato JSON
+//        if(stub.verifyNewProveedor(usuario)){
+//            tools.print(tools.ORANGE + "usuario: " + usuario.toString() );
+//            return service.guardar(usuario);
+//        }
+//        // envia un mesaje de error que el proveedor ya existe
+//        return null;
+//    }
+
     @PostMapping("/usuarios")
-    public UsuarioEntity guardarProveedor(@RequestBody UsuarioEntity usuario) { //request body es para que reciba un objeto en formato JSON
-        tools.print(tools.ORANGE + "usuario: " + usuario.toString() );
-        return service.guardar(usuario);
+    public ResponseEntity<?> guardarProveedor(@RequestBody UsuarioEntity usuario) {
+        if (stub.verifyNewProveedor(usuario)) {
+            return ResponseEntity.status(HttpStatus.OK).body(service.guardar(usuario));
+        }
+        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                .body("El proveedor NO se encuentra registrado en la lista de hacienda!!!.");
     }
 
     //Busca Usuarios por ID
