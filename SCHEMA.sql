@@ -18,9 +18,22 @@ alter table usuarios add constraint tipo_cedula_ck Check
 
 alter table usuarios add constraint aprobado_ck Check
     (aprobado in ('APR','ESP','REC', 'REV' '') );
+create table actividad(
+						id_actividad varchar(6) NOT NULL,
+                        descripcion varchar(50) DEFAULT NULL,
+                        PRIMARY KEY(id_actividad)
+);
 
+create table proveedorActividad (  -- tabla intermedia entre actividad y el proveedor
+							idproveedoractividad INT NOT NULL AUTO_INCREMENT, 
+							id_usuario varchar(20),
+							id_actividad varchar(6) NULL,
+							PRIMARY KEY (idproveedoractividad),
+							UNIQUE INDEX idproveedoractividad_UNIQUE (idproveedoractividad ASC) VISIBLE
+);
 create table productos(
                           id_producto INT AUTO_INCREMENT PRIMARY KEY,
+                          id_actividad varchar(6) null,
                           nombre varchar(80) not null,
                           codigo varchar(10) not null,
                           descripcion varchar(505) not null,
@@ -57,7 +70,14 @@ CREATE TABLE detalles (
 
 alter table usuarios add constraint usuarios_pk primary key (id_usuario);
 
+alter table proveedorActividad add foreign key(id_usuario) references usuarios(id_usuario);
+alter table proveedorActividad add foreign key(id_actividad) references actividad(id_actividad);
+
+
+
 alter table productos add foreign key (proveedor_p) references usuarios(id_usuario);
+alter table productos add foreign key (id_actividad) references actividad(id_actividad);
+
 alter table clientes add foreign key (proveedor_c) references usuarios(id_usuario);
 
 alter table facturas add foreign key (identificacion_usuario) references usuarios(id_usuario);
@@ -86,9 +106,11 @@ insert into usuarios (id_usuario,nombre,contrasenia,tipo,tipo_cedula, aprobado) 
 insert into usuarios (id_usuario,nombre,contrasenia,tipo,tipo_cedula, aprobado) values ('7','Andrey','1','PRO','FIS', 'ESP');
 insert into usuarios (id_usuario,nombre,contrasenia,tipo, aprobado) values ('3','Juana','123','ADM','APR');
 
+insert into actividad (id_actividad, descripcion) values ('69200', 'servicios profesionales');
+insert into actividad (id_actividad, descripcion) values ('62010', 'Software, prueba y soporte');
 
-insert into productos ( codigo, nombre, descripcion, precio,proveedor_p) values ('001','Queque seco', 'Un muy buen queque seco',1500,'1');
-insert into productos ( codigo, nombre, descripcion, precio,proveedor_p) values ('002','Queque mojado', 'Esta mojado',2000,'1');
+insert into productos ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('69200','001','Queque seco', 'Un muy buen queque seco',1500,'1');
+insert into productos ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('62010','002','Queque mojado', 'Esta mojado',2000,'1');
 
 insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) values ('gvega','Gabriel Vega','gvega@gmail.com',11111111,'1');
 insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) values ('123','Cesar','cesar@gmail.com',11111111,'2');
@@ -115,7 +137,7 @@ select * from productos;
 select * from clientes;
 
 
-DELETE FROM detalles;
-DELETE FROM facturas;
-ALTER TABLE detalles AUTO_INCREMENT = 1;
-ALTER TABLE facturas AUTO_INCREMENT = 1;
+-- DELETE FROM detalles;
+-- DELETE FROM facturas;
+-- ALTER TABLE detalles AUTO_INCREMENT = 1;
+-- ALTER TABLE facturas AUTO_INCREMENT = 1;

@@ -1,7 +1,7 @@
 package org.example.backend.service;
 
 import org.example.backend.data.ProductoRepository;
-import org.example.backend.logic.ProductoEntity;
+import org.example.backend.logic.ProductosEntity;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -12,13 +12,13 @@ public class ProductoServiceImpl implements ProductoService{
     private ProductoRepository productoRepository;
 
     @Override
-    public Iterable<ProductoEntity> productoFindAll(){ return productoRepository.findAll();}
+    public Iterable<ProductosEntity> productoFindAll(){ return productoRepository.findAll();}
 
     @Override
-    public Iterable<ProductoEntity> productoFindAllByProveedorId(String id) {
+    public Iterable<ProductosEntity> productoFindAllByProveedorId(String id) {
         return productoRepository.findProductoEntityByProveedorP(id);
     }
 
     @Override
-    public void productoSave(ProductoEntity producto) { productoRepository.save(producto);}
+    public void productoSave(ProductosEntity producto) { productoRepository.save(producto);}
 }

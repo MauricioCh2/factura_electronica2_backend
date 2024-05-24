@@ -1,9 +1,9 @@
 package org.example.backend.service;
 
-import org.example.backend.logic.ProductoEntity;
+import org.example.backend.logic.ProductosEntity;
 
 public interface ProductoService {
-    public Iterable<ProductoEntity> productoFindAll();
-    public Iterable<ProductoEntity> productoFindAllByProveedorId(String id);
-    void productoSave(ProductoEntity producto);
+    public Iterable<ProductosEntity> productoFindAll();
+    public Iterable<ProductosEntity> productoFindAllByProveedorId(String id);
+    void productoSave(ProductosEntity producto);
 }

@@ -1,6 +1,6 @@
 package org.example.backend.controller;
 
-import org.example.backend.logic.ProductoEntity;
+import org.example.backend.logic.ProductosEntity;
 import org.example.backend.service.ProductoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +14,11 @@ public class ProductoController {
 
 
     @GetMapping("productos/{id}")
-    public Iterable<ProductoEntity> listarProductosPorProveedor(@PathVariable String id) {
+    public Iterable<ProductosEntity> listarProductosPorProveedor(@PathVariable String id) {
         return productoService.productoFindAllByProveedorId(id);
         }
 
         @PostMapping("/productos")
-        public void guardarProducto(@RequestBody ProductoEntity producto) { productoService.productoSave(producto);}
+        public void guardarProducto(@RequestBody ProductosEntity producto) { productoService.productoSave(producto);}
 
 }
