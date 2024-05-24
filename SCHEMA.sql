@@ -113,3 +113,9 @@ select * from usuarios;
 select * from facturas;
 select * from productos;
 select * from clientes;
+
+
+DELETE FROM detalles;
+DELETE FROM facturas;
+ALTER TABLE detalles AUTO_INCREMENT = 1;
+ALTER TABLE facturas AUTO_INCREMENT = 1;

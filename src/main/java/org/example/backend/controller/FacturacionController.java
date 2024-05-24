@@ -8,6 +8,7 @@ import org.example.backend.service.FacturaService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -29,6 +30,8 @@ public class FacturacionController {
     public FacturaEntity facturar(@RequestBody FacturaConDetalles facturaConDetalles) {
         // Aquí puedes acceder a la factura y los detalles con facturaConDetalles.getFactura() y facturaConDetalles.getDetalles()
         FacturaEntity facturaAux = facturaConDetalles.getFactura();
+        java.util.Date date = new java.util.Date();
+        facturaAux.setFecha(new Timestamp(date.getTime()));
         ArrayList<DetalleEntity> detalles = (ArrayList<DetalleEntity>) facturaConDetalles.getDetalles();
         try {
             facturaService.save(facturaAux);

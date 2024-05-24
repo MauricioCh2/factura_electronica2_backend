@@ -24,6 +24,8 @@ public class UsuarioController {
 
     @PostMapping("/usuarios/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuario) {
+
+
         UsuarioEntity usuarioEntity = service.buscarPorId(usuario.getIdUsuario());
         if (usuarioEntity != null && usuarioEntity.getContrasenia().equals(usuario.getContrasenia())) {
             return ResponseEntity.ok(usuarioEntity);
