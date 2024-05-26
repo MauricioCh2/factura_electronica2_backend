@@ -11,4 +11,5 @@ public interface ClienteService {
     public Iterable<ClienteEntity> clienteFindAllByProveedorId(String id);
     ClienteEntity clienteSave(ClienteEntity cliente);
     public   Boolean existsByIdentificacionCAndProveedorC(String idCliente, String idProveedor);
+    public ClienteEntity clienteFindById(int id);
 }

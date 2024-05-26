@@ -4,5 +4,6 @@ import org.example.backend.logic.DetalleEntity;
 
 public interface DetalleService {
     DetalleEntity guardar(DetalleEntity detalle);
+    Iterable<DetalleEntity> getDetalleByIdFactura(int id);
 
 }

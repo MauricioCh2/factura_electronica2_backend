@@ -6,4 +6,6 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DetalleRepository extends JpaRepository<DetalleEntity,Integer> {
+    Iterable<DetalleEntity> findDetalleEntityByIdFacDetalle(int id);
+    DetalleEntity findDetalleEntityByIdDetalle(int id);
 }

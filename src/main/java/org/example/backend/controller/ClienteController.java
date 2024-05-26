@@ -27,24 +27,9 @@ public Iterable<ClienteEntity> listarClientes() {
     public void guardarCliente(@RequestBody ClienteEntity cliente) {
          clienteService.clienteSave(cliente);
     }
-
-//    @PutMapping("/clientes/{id}")
-//    public ClienteEntity actualizarCliente(@PathVariable String id, @RequestBody ClienteEntity clienteDetails) {
-//        ClienteEntity cliente = clienteService.clienteFindById(id);
-//
-//        cliente.setNombre(clienteDetails.getNombre());
-//        cliente.setCedula(clienteDetails.getCedula());
-//        cliente.setCorreo(clienteDetails.getCorreo());
-//        cliente.setTelefono(clienteDetails.getTelefono());
-//        cliente.setDireccion(clienteDetails.getDireccion());
-//
-//        return clienteService.clienteSave(cliente);
-//    }
-
-//    @DeleteMapping("/clientes/{id}")
-//    public void eliminarCliente(@PathVariable String id) {
-//        clienteService.clienteDelete(id);
-//    }
-
+    @GetMapping("/clientes/findById/{id}")
+    public ClienteEntity getClienteById (@PathVariable int id) {
+        return clienteService.clienteFindById(id);
+    }
 
 }

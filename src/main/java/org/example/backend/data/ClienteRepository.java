@@ -8,4 +8,5 @@ import org.springframework.stereotype.Repository;
 public interface ClienteRepository extends JpaRepository<ClienteEntity, String> {
    Iterable<ClienteEntity> findClienteEntityByProveedorC(String id);
    Boolean existsByIdentificacionCAndProveedorC(String idCliente, String idProveedor);
+   ClienteEntity findClienteEntityByIdCliente(int idCliente);
 }

@@ -30,4 +30,9 @@ public class ClienteServiceImpl implements ClienteService{
     public Boolean existsByIdentificacionCAndProveedorC(String idCliente, String idProveedor) {
         return clienteRepository.existsByIdentificacionCAndProveedorC(idCliente, idProveedor);
     }
+
+    @Override
+    public ClienteEntity clienteFindById(int id) {
+        return clienteRepository.findClienteEntityByIdCliente(id);
+    }
 }
