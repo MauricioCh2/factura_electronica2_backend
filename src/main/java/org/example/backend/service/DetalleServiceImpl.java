@@ -15,4 +15,9 @@ public class DetalleServiceImpl implements DetalleService{
         return detalleRepo.save(detalle);
     }
 
+    @Override
+    public Iterable<DetalleEntity> getDetalleByIdFactura(int id) {
+        return detalleRepo.findDetalleEntityByIdFacDetalle(id);
+    }
+
 }

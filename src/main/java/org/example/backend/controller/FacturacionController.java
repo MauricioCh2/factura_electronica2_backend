@@ -46,5 +46,13 @@ public class FacturacionController {
         return facturaAux;
         //return new ResponseEntity<>(facturaConDetalles.getFactura(), HttpStatus.CREATED);
     }
+    @GetMapping("/facturas/detalles/{id}")
+    public Iterable<DetalleEntity> getDetalleByIdFactura(@PathVariable int id) {
+        return detalleService.getDetalleByIdFactura(id);
+    }
+    @GetMapping("/facturas/getFactura/{id}")
+    public FacturaEntity getFacturaById (@PathVariable int id) {
+        return facturaService.findById(id).get();
+    }
 }
 

@@ -10,4 +10,5 @@ import java.util.List;
 @Repository
 public interface  FacturaRepository extends JpaRepository<FacturaEntity,Integer> {
     List<FacturaEntity> findAllByIdentificacionUsuario(String idproveedor);
+    FacturaEntity findFacturaEntityByIdFactura(int id);
 }
