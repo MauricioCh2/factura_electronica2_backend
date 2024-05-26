@@ -29,7 +29,8 @@ public class UsuarioServiceImpl implements  UsuarioService{
 
     @Override
     public UsuarioEntity buscarPorId(String id) {
-        return usuarioRepo.findById(id).orElseThrow(() -> new RuntimeException("Usuario no encontrado para el id: " + id));
+        return usuarioRepo.findById(id).orElse(null);
+        //() -> new RuntimeException("Usuario no encontrado para el id: " + id)
     }
 
     @Override

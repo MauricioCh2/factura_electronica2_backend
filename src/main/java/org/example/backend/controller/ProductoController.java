@@ -18,7 +18,7 @@ public class ProductoController {
         return productoService.productoFindAllByProveedorId(id);
         }
 
-        @PostMapping("/productos")
-        public void guardarProducto(@RequestBody ProductosEntity producto) { productoService.productoSave(producto);}
+    @PostMapping("/productos")
+    public void guardarProducto(@RequestBody ProductosEntity producto) { productoService.productoSave(producto);}
 
 }

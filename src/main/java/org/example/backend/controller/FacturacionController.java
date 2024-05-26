@@ -31,12 +31,12 @@ public class FacturacionController {
         // Aquí puedes acceder a la factura y los detalles con facturaConDetalles.getFactura() y facturaConDetalles.getDetalles()
         FacturaEntity facturaAux = facturaConDetalles.getFactura();
         java.util.Date date = new java.util.Date();
-        facturaAux.setFecha(new Timestamp(date.getTime()));
+        facturaAux.setFecha(new Timestamp(date.getTime()));//setea fecha actual
         ArrayList<DetalleEntity> detalles = (ArrayList<DetalleEntity>) facturaConDetalles.getDetalles();
         try {
-            facturaService.save(facturaAux);
+            facturaService.save(facturaAux);//guarda l;a factura
             for(DetalleEntity detalle: detalles){
-                detalle.setIdFacDetalle(facturaAux.getIdFactura());
+                detalle.setIdFacDetalle(facturaAux.getIdFactura());//setea el id generado por la db a cada detalle
                 detalleService.guardar(detalle);
             }
         } catch (Exception e) {

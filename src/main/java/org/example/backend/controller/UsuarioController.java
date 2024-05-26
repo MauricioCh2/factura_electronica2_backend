@@ -31,16 +31,16 @@ public class UsuarioController {
     @PostMapping("/usuarios/login")
     public ResponseEntity<UsuarioEntity> login(@RequestBody UsuarioEntity usuario) {
 
-
         UsuarioEntity usuarioEntity = service.buscarPorId(usuario.getIdUsuario());
         if (usuarioEntity != null && usuarioEntity.getContrasenia().equals(usuario.getContrasenia())) {
             return ResponseEntity.ok(usuarioEntity);
         } else {
-            return ResponseEntity.notFound().build();
+            return ResponseEntity.notFound().build();// nota esto devuelve un 404
         }
     }
     @PostMapping("/usuarios/agregarCliente/{id}")
     public ResponseEntity<ClienteEntity> agregarCliente(@PathVariable String id, @RequestBody ClienteEntity cliente) {
+        tools.print(tools.ORANGE+ "Estoy en agregar cliente");
         if(clienteService.existsByIdentificacionCAndProveedorC(cliente.getIdentificacionC(), id)){
             return ResponseEntity.badRequest().build();
         }
@@ -53,38 +53,52 @@ public class UsuarioController {
         return service.lisarProvedores();
     }
 
-//    //Guarda usuarios
-//    @PostMapping("/usuarios")
-//    public UsuarioEntity guardarProveedor(@RequestBody UsuarioEntity usuario) {
-//        //request body es para que reciba un objeto en formato JSON
-//        if(stub.verifyNewProveedor(usuario)){
-//            tools.print(tools.ORANGE + "usuario: " + usuario.toString() );
-//            return service.guardar(usuario);
-//        }
-//        // envia un mesaje de error que el proveedor ya existe
-//        return null;
-//    }
 
     @PostMapping("/usuarios")
     public ResponseEntity<?> guardarProveedor(@RequestBody UsuarioEntity usuario) {
-        if (stub.verifyNewProveedor(usuario)) {
-            return ResponseEntity.status(HttpStatus.OK).body(service.guardar(usuario));
-        }
-        return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                .body("El proveedor NO se encuentra registrado en la lista de hacienda!!!.");
+        tools.print(tools.ORANGE+ "Estoy en agregar usuario");
+        tools.print(tools.RED + service.buscarPorId(usuario.getIdUsuario()));
+
+            if(service.buscarPorId(usuario.getIdUsuario()) == null) {//en caso de que no este en la base de datos continuara el proceso
+                tools.print(tools.ORANGE+ "No esta en la  en la db");
+
+                if (stub.verifyNewProveedor(usuario)) {//revisa si se encuentra en el STUB (hacienda)
+                    tools.print(tools.ORANGE+ "Esta en el stub");
+//                    return ResponseEntity.status(HttpStatus.OK).body(stub.getProveedorById(usuario.getIdUsuario()));
+                    service.guardar(usuario);
+                    return ResponseEntity.status(HttpStatus.OK).body(stub.getActividadesProv(usuario.getIdUsuario()));//guarda el usuario en la base de datos--------------
+                }
+                tools.print(tools.ORANGE+ "No esta  en el stub");
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("El proveedor NO se encuentra registrado en la lista de hacienda!!!.");
+
+
+            }else{
+
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body("El proveedor ya se encuentra registrado en el sistema de facturación electronica.");
+            }
+
+
     }
 
     //Busca Usuarios por ID
     @GetMapping("/usuarios/{id}")
     public ResponseEntity<UsuarioEntity> buscarPorId(@PathVariable String id) {
         UsuarioEntity usuario = service.buscarPorId(id);
-        return ResponseEntity.ok(usuario);
+        if(usuario != null) {
+            return ResponseEntity.ok(usuario);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PutMapping("/usuarios/{id}")
     public ResponseEntity<UsuarioEntity> actualizarProveedor(@PathVariable String id, @RequestBody UsuarioEntity usuarioDetails ) {
         UsuarioEntity usuario = service.buscarPorId(id);
 
+        if(usuario != null) {
         usuario.setNombre(usuarioDetails.getNombre());
         usuario.setContrasenia(usuarioDetails.getContrasenia());
         usuario.setTipo(usuarioDetails.getTipo());
@@ -93,6 +107,9 @@ public class UsuarioController {
 
         UsuarioEntity updatedUsuario = service.guardar(usuario);
         return ResponseEntity.ok(usuario);
+        }else {
+            return ResponseEntity.notFound().build();
+        }
     }
     @DeleteMapping("/usuarios/{id}")
     public ResponseEntity<?> eliminarEmpleado(@PathVariable String id){

@@ -86,6 +86,12 @@ public class UsuarioEntity {
         this.aprobado = aprobado;
     }
 
+    public UsuarioEntity(String idUsuario, String nombre, String tipoCedula) {
+        this.idUsuario = idUsuario;
+        this.nombre = nombre;
+        this.tipoCedula = tipoCedula;
+    }
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
