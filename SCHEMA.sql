@@ -20,7 +20,7 @@ alter table usuarios add constraint aprobado_ck Check
     (aprobado in ('APR','ESP','REC', 'REV', '') );
 create table actividad(
                           id_actividad varchar(6) NOT NULL,
-                          descripcion varchar(80) DEFAULT NULL,
+                          descripcion varchar(550) DEFAULT NULL,
                           PRIMARY KEY(id_actividad)
 );
 
@@ -65,7 +65,7 @@ CREATE TABLE detalles (
                           codigo_producto INT NOT NULL,
                           cantidad INT NOT NULL,
                           descripcion_detalle VARCHAR(100) NOT NULL,
-                          valor_roductos FLOAT NOT NULL
+                          valor_productos FLOAT NOT NULL
 );
 
 alter table usuarios add constraint usuarios_pk primary key (id_usuario);
