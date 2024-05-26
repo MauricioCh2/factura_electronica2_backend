@@ -27,8 +27,8 @@ public class DetalleEntity {
     @Column(name = "descripcion_detalle")
     private String descripcionDetalle;
     @Basic
-    @Column(name = "valor_roductos")
-    private double valorRoductos;
+    @Column(name = "valor_productos")
+    private double valorProductos;
 
     public int getIdDetalle() {
         return idDetalle;
@@ -78,12 +78,12 @@ public class DetalleEntity {
         this.descripcionDetalle = descripcionDetalle;
     }
 
-    public double getValorRoductos() {
-        return valorRoductos;
+    public double getValorProductos() {
+        return valorProductos;
     }
 
-    public void setValorRoductos(double valorRoductos) {
-        this.valorRoductos = valorRoductos;
+    public void setValorProductos(double valorRoductos) {
+        this.valorProductos = valorRoductos;
     }
 
     public DetalleEntity() {
@@ -97,7 +97,7 @@ public class DetalleEntity {
         this.codigoProducto = codigoProducto;
         this.cantidad = cantidad;
         this.descripcionDetalle = descripcionDetalle;
-        this.valorRoductos = valorRoductos;
+        this.valorProductos = valorRoductos;
     }
 
     @Override
@@ -105,11 +105,11 @@ public class DetalleEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         DetalleEntity that = (DetalleEntity) o;
-        return idDetalle == that.idDetalle && numDetalle == that.numDetalle && idFacDetalle == that.idFacDetalle && codigoProducto == that.codigoProducto && cantidad == that.cantidad && Double.compare(valorRoductos, that.valorRoductos) == 0 && Objects.equals(descripcionDetalle, that.descripcionDetalle);
+        return idDetalle == that.idDetalle && numDetalle == that.numDetalle && idFacDetalle == that.idFacDetalle && codigoProducto == that.codigoProducto && cantidad == that.cantidad && Double.compare(valorProductos, that.valorProductos) == 0 && Objects.equals(descripcionDetalle, that.descripcionDetalle);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(idDetalle, numDetalle, idFacDetalle, codigoProducto, cantidad, descripcionDetalle, valorRoductos);
+        return Objects.hash(idDetalle, numDetalle, idFacDetalle, codigoProducto, cantidad, descripcionDetalle, valorProductos);
     }
 }
