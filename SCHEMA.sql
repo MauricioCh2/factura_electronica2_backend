@@ -1,5 +1,12 @@
 DROP DATABASE IF EXISTS FacturaElectronica_2;
 CREATE DATABASE FacturaElectronica_2;
+DROP TABLE IF EXISTS FacturaElectronica_2.detalles,
+    FacturaElectronica_2.facturas,
+    FacturaElectronica_2.clientes,
+    FacturaElectronica_2.producto,
+    FacturaElectronica_2.proveedorActividad,
+    FacturaElectronica_2.usuarios,
+    FacturaElectronica_2.actividad;
 USE FacturaElectronica_2;
 
 
@@ -20,26 +27,30 @@ alter table usuarios add constraint tipo_cedula_ck Check
 alter table usuarios add constraint aprobado_ck Check
     (aprobado in ('APR','ESP','REC', 'REV', '') );
 create table actividad(
-                          id_actividad int NOT NULL,
+                          id_actividad int NOT null,
                           descripcion varchar(550) DEFAULT NULL,
                           PRIMARY KEY(id_actividad)
 );
 
-create table proveedorActividad (  -- tabla intermedia entre actividad y el proveedor
-                                    idproveedoractividad INT NOT NULL AUTO_INCREMENT,
-                                    id_usuario varchar(20),
-                                    id_actividad int NOT NULL,
-                                    PRIMARY KEY (idproveedoractividad),
-                                    UNIQUE INDEX idproveedoractividad_UNIQUE (idproveedoractividad ASC) VISIBLE
+create table proveedor_actividad (  -- tabla intermedia entre actividad y el proveedor
+                                     idproveedoractividad INT NOT NULL AUTO_INCREMENT,
+                                     id_usuario varchar(20) not null ,
+                                     id_actividad int NOT NULL,
+                                     PRIMARY KEY (idproveedoractividad),
+                                     UNIQUE INDEX idproveedoractividad_UNIQUE (idproveedoractividad ASC) VISIBLE
 );
-create table productos(
-                          id_producto INT AUTO_INCREMENT PRIMARY KEY,
-                          id_actividad int null,
-                          nombre varchar(80) not null,
-                          codigo varchar(10) not null,
-                          descripcion varchar(505) not null,
-                          precio FLOAT not null,
-                          proveedor_p varchar(20) not null
+
+
+
+
+create table producto(
+                         id_producto INT AUTO_INCREMENT PRIMARY KEY,
+                         id_actividad int NOT null,
+                         nombre varchar(80) not null,
+                         codigo varchar(10) not null,
+                         descripcion varchar(505) not null,
+                         precio FLOAT not null,
+                         proveedor_p varchar(20) not null
 );
 
 create table clientes (
@@ -66,20 +77,20 @@ CREATE TABLE detalles (
                           codigo_producto INT NOT NULL,
                           cantidad INT NOT NULL,
                           descripcion_detalle VARCHAR(100) NOT NULL,
-                          valor_productos FLOAT NOT NULL
+                          valor_producto FLOAT NOT NULL
 );
 
 
 
 alter table usuarios add constraint usuarios_pk primary key (id_usuario);
 
-alter table proveedorActividad add foreign key(id_usuario) references usuarios(id_usuario);
-alter table proveedorActividad add foreign key(id_actividad) references actividad(id_actividad);
+
+alter table proveedor_actividad add foreign key(id_usuario) references usuarios(id_usuario);
+alter table proveedor_actividad add foreign key(id_actividad) references actividad(id_actividad);
 
 
-
-alter table productos add foreign key (proveedor_p) references usuarios(id_usuario);
-alter table productos add foreign key (id_actividad) references actividad(id_actividad);
+alter table producto add foreign key (proveedor_p) references usuarios(id_usuario);
+alter table producto add foreign key (id_actividad) references actividad(id_actividad);
 
 alter table clientes add foreign key (proveedor_c) references usuarios(id_usuario);
 
@@ -87,13 +98,13 @@ alter table facturas add foreign key (identificacion_usuario) references usuario
 alter table facturas add foreign key (identificacion_cliente) references clientes(id_cliente);
 
 alter table detalles add foreign key (id_fac_detalle) references facturas(id_factura);
-alter table detalles add foreign key (codigo_producto) references productos(id_producto);
+alter table detalles add foreign key (codigo_producto) references producto(id_producto);
 
 
 
 
 
-alter table productos add constraint precio_ck Check
+alter table producto add constraint precio_ck Check
     (precio > 0 );
 
 alter table clientes add constraint telefono_ck Check
@@ -112,8 +123,8 @@ insert into usuarios (id_usuario,nombre,contrasenia,tipo, aprobado) values ('3',
 insert into actividad (id_actividad, descripcion) values ('69200', 'servicios profesionales');
 insert into actividad (id_actividad, descripcion) values ('62010', 'Software, prueba y soporte');
 
-insert into productos ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('69200','001','Queque seco', 'Un muy buen queque seco',1500,'1');
-insert into productos ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('62010','002','Queque mojado', 'Esta mojado',2000,'1');
+insert into producto ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('69200','001','Queque seco', 'Un muy buen queque seco',1500,'1');
+insert into producto ( id_actividad, codigo, nombre, descripcion, precio,proveedor_p) values ('62010','002','Queque mojado', 'Esta mojado',2000,'1');
 
 insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) values ('gvega','Gabriel Vega','gvega@gmail.com',11111111,'1');
 insert into clientes ( identificacion_c, nombre_c, correo,telefono,proveedor_c) values ('123','Cesar','cesar@gmail.com',11111111,'2');
@@ -126,8 +137,8 @@ INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_tota
 INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('1', 1, 4000);
 INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('2', 2, 3232);
 INSERT INTO facturas (identificacion_usuario, identificacion_cliente, valor_total) VALUES ('3', 1, 213);
-
-
+#
+#
 INSERT INTO actividad (id_actividad, descripcion) VALUES
                                                       ('62521', 'Servicios de venta al por menor de frutas y vegetales, prestados a comisión o por contrato'),
                                                       ('62553', 'Servicios de venta al por menor de juegos y juguetes, prestados a comisión o por contrato (bienes que son propiedad de otros)'),
@@ -142,59 +153,35 @@ INSERT INTO actividad (id_actividad, descripcion) VALUES
                                                       ('92912', 'Servicios de educación deportiva y recreativa'),
                                                       ('92919', 'Servicios de educación y capacitación, n.c.p.');
 
-INSERT INTO proveedorActividad (id_usuario, id_actividad) VALUES
-                                                              ('111', '62521'),
-                                                              ('111', '62553'),
-                                                              ('111', '47610'),
-                                                              ('111', '88167'),
-                                                              ('111', '21111'),
-                                                              ('111', '21121'),
-                                                              ('2', '84391'),
-                                                              ('2', '38961'),
-                                                              ('2', '88906'),
-                                                              ('2', '92912'),
-                                                              ('2', '92919'),
-                                                              ('4', '62521'),
-                                                              ('4', '62553'),
-                                                              ('4', '47610'),
-                                                              ('4', '88167'),
-                                                              ('4', '21111'),
-                                                              ('4', '21121'),
-                                                              ('5', '84391'),
-                                                              ('5', '38961'),
-                                                              ('5', '88906'),
-                                                              ('5', '92912'),
-                                                              ('5', '92919'),
-                                                              ('6', '62521'),
-                                                              ('6', '62553'),
-                                                              ('6', '47610'),
-                                                              ('6', '88167'),
-                                                              ('6', '21111'),
-                                                              ('6', '21121'),
-                                                              ('7', '84391'),
-                                                              ('7', '38961'),
-                                                              ('7', '88906'),
-                                                              ('7', '92912'),
-                                                              ('7', '92919'),
-                                                              ('111', '84391'),
-                                                              ('111', '38961');
-# insert into detalles (id_fac_detalle, codigo_producto, cantidad, descripcion_detalle, valor_final) values (5, 1, 2, 'Queque seco', 3000.0);
-# insert into detalles (id_fac_detalle, codigo_producto, cantidad, descripcion_detalle, valor_final) values (6, 2, 1, 'Queque mojado', 2000.0);
+# INSERT INTO proveedorActividad (id_usuario, id_actividad) VALUES
+#                                                               ('2222222222', 21111),
+#                                                               ('2222222222', 21121),
+#                                                               ('111', 47610),
+#                                                               ('111', 88167);
+
 
 
 
 select * from usuarios;
 select * from facturas;
-select * from productos;
+select * from producto;
 select * from clientes;
 select * from detalles;
+select * from actividad;
+select * from proveedor_actividad;
 
-
+# ALTER TABLE producto DROP FOREIGN KEY producto_ibfk_2;
+# ALTER TABLE actividad MODIFY COLUMN id_actividad varchar(255);
+# ALTER TABLE producto ADD CONSTRAINT producto_ibfk_2 FOREIGN KEY (id_actividad) REFERENCES actividad(id_actividad);
+# #
 # DELETE FROM detalles;
- DELETE FROM usuarios;
 # DELETE FROM facturas;
-# DELETE FROM productos;
+# DELETE FROM producto;
 # DELETE FROM clientes;
+# DELETE FROM usuarios;
+# DELETE FROM actividad;
 # ALTER TABLE detalles AUTO_INCREMENT = 1;
 # ALTER TABLE facturas AUTO_INCREMENT = 1;
 # ALTER TABLE clientes AUTO_INCREMENT = 1;
+
+
