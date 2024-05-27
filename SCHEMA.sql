@@ -2,6 +2,7 @@ DROP DATABASE IF EXISTS FacturaElectronica_2;
 CREATE DATABASE FacturaElectronica_2;
 USE FacturaElectronica_2;
 
+
 create table usuarios (  -- Proveedor y Administrador
                           id_usuario varchar(20) not null,
                           nombre varchar(100) not null,
@@ -19,7 +20,7 @@ alter table usuarios add constraint tipo_cedula_ck Check
 alter table usuarios add constraint aprobado_ck Check
     (aprobado in ('APR','ESP','REC', 'REV', '') );
 create table actividad(
-                          id_actividad varchar(6) NOT NULL,
+                          id_actividad int NOT NULL,
                           descripcion varchar(550) DEFAULT NULL,
                           PRIMARY KEY(id_actividad)
 );
@@ -27,13 +28,13 @@ create table actividad(
 create table proveedorActividad (  -- tabla intermedia entre actividad y el proveedor
                                     idproveedoractividad INT NOT NULL AUTO_INCREMENT,
                                     id_usuario varchar(20),
-                                    id_actividad varchar(6) NULL,
+                                    id_actividad int NOT NULL,
                                     PRIMARY KEY (idproveedoractividad),
                                     UNIQUE INDEX idproveedoractividad_UNIQUE (idproveedoractividad ASC) VISIBLE
 );
 create table productos(
                           id_producto INT AUTO_INCREMENT PRIMARY KEY,
-                          id_actividad varchar(6) null,
+                          id_actividad int null,
                           nombre varchar(80) not null,
                           codigo varchar(10) not null,
                           descripcion varchar(505) not null,
@@ -67,6 +68,8 @@ CREATE TABLE detalles (
                           descripcion_detalle VARCHAR(100) NOT NULL,
                           valor_productos FLOAT NOT NULL
 );
+
+
 
 alter table usuarios add constraint usuarios_pk primary key (id_usuario);
 
@@ -187,7 +190,11 @@ select * from clientes;
 select * from detalles;
 
 
--- DELETE FROM detalles;
--- DELETE FROM facturas;
--- ALTER TABLE detalles AUTO_INCREMENT = 1;
--- ALTER TABLE facturas AUTO_INCREMENT = 1;
+# DELETE FROM detalles;
+ DELETE FROM usuarios;
+# DELETE FROM facturas;
+# DELETE FROM productos;
+# DELETE FROM clientes;
+# ALTER TABLE detalles AUTO_INCREMENT = 1;
+# ALTER TABLE facturas AUTO_INCREMENT = 1;
+# ALTER TABLE clientes AUTO_INCREMENT = 1;

@@ -2,8 +2,10 @@ package org.example.backend.controller;
 
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.backend.data.STUB;
+import org.example.backend.logic.ActividadEntity;
 import org.example.backend.logic.ClienteEntity;
 import org.example.backend.logic.UsuarioEntity;
+import org.example.backend.service.ActividadesService;
 import org.example.backend.service.ClienteService;
 import org.example.backend.service.UsuarioService;
 import org.example.backend.tools;
@@ -24,6 +26,8 @@ public class UsuarioController {
     private UsuarioService service;
     @Autowired
     private ClienteService clienteService;
+    @Autowired
+    private ActividadesService actividadesService;
     private STUB stub = new STUB();
     @Autowired
     private HttpServletResponse httpServletResponse;
@@ -33,11 +37,14 @@ public class UsuarioController {
 
         UsuarioEntity usuarioEntity = service.buscarPorId(usuario.getIdUsuario());
         if (usuarioEntity != null && usuarioEntity.getContrasenia().equals(usuario.getContrasenia())) {
+            usuarioEntity.setActividades(stub.getActividadesByProveedor(usuarioEntity.getIdUsuario()));
             return ResponseEntity.ok(usuarioEntity);
         } else {
             return ResponseEntity.notFound().build();// nota esto devuelve un 404
         }
     }
+
+
     @PostMapping("/usuarios/agregarCliente/{id}")
     public ResponseEntity<ClienteEntity> agregarCliente(@PathVariable String id, @RequestBody ClienteEntity cliente) {
         tools.print(tools.ORANGE+ "Estoy en agregar cliente");
@@ -66,7 +73,7 @@ public class UsuarioController {
                     tools.print(tools.ORANGE+ "Esta en el stub");
 //                    return ResponseEntity.status(HttpStatus.OK).body(stub.getProveedorById(usuario.getIdUsuario()));
                     service.guardar(usuario);
-                    return ResponseEntity.status(HttpStatus.OK).body(stub.getActividadesProv(usuario.getIdUsuario()));//guarda el usuario en la base de datos--------------
+                    return ResponseEntity.status(HttpStatus.OK).body(stub.getActividadesByProveedor(usuario.getIdUsuario()));//guarda el usuario en la base de datos--------------
                 }
                 tools.print(tools.ORANGE+ "No esta  en el stub");
 

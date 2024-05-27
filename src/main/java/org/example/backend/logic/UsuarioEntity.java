@@ -1,7 +1,10 @@
 package org.example.backend.logic;
 
 import jakarta.persistence.*;
+import org.apache.catalina.LifecycleState;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 @Entity
@@ -25,6 +28,15 @@ public class UsuarioEntity {
     @Basic
     @Column(name = "aprobado")
     private String aprobado;
+
+    @OneToMany
+    @JoinTable(
+            name = "proveedorActividad", // Nombre de la tabla intermedia
+            joinColumns = @JoinColumn(name = "id_usuario"), // Columna que referencia a UsuarioEntity
+            inverseJoinColumns = @JoinColumn(name = "id_actividad") // Columna que referencia a ActividadEntity
+    )
+    private List<ActividadEntity> actividades;
+
 
     public String getIdUsuario() {
         return idUsuario;
@@ -74,7 +86,20 @@ public class UsuarioEntity {
         this.aprobado = aprobado;
     }
 
+
+
+
+    public List<ActividadEntity> getActividades() {
+        return actividades;
+    }
+
+    public void setActividades(List<ActividadEntity> actividades) {
+        this.actividades = actividades;
+    }
+
+
     public UsuarioEntity() {
+        this.actividades = new ArrayList<>();
     }
 
     public UsuarioEntity(String idUsuario, String nombre, String contrasenia, String tipo, String tipoCedula, String aprobado) {
@@ -84,12 +109,22 @@ public class UsuarioEntity {
         this.tipo = tipo;
         this.tipoCedula = tipoCedula;
         this.aprobado = aprobado;
+        this.actividades = new ArrayList<>();
     }
 
     public UsuarioEntity(String idUsuario, String nombre, String tipoCedula) {
         this.idUsuario = idUsuario;
         this.nombre = nombre;
         this.tipoCedula = tipoCedula;
+        this.actividades = new ArrayList<>();
+    }
+
+    public void addActividad(ActividadEntity actividad) {
+        this.actividades.add(actividad);
+    }
+
+    public void removeActividad(ActividadEntity actividad) {
+        this.actividades.remove(actividad);
     }
 
     @Override

@@ -10,16 +10,17 @@ public class ActividadEntity {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Id
     @Column(name = "id_actividad")
-    private String idActividad;
+    private int idActividad;
     @Basic
     @Column(name = "descripcion")
     private String descripcion;
 
-    public String getIdActividad() {
+
+    public int getIdActividad() {
         return idActividad;
     }
 
-    public void setIdActividad(String idActividad) {
+    public void setIdActividad(int idActividad) {
         this.idActividad = idActividad;
     }
 
@@ -31,20 +32,21 @@ public class ActividadEntity {
         this.descripcion = descripcion;
     }
 
-
-    public ActividadEntity(String idActividad, String descripcion) {
+    public ActividadEntity(int idActividad, String descripcion) {
         this.idActividad = idActividad;
         this.descripcion = descripcion;
     }
 
     public ActividadEntity() {
     }
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ActividadEntity that = (ActividadEntity) o;
-        return Objects.equals(idActividad, that.idActividad) && Objects.equals(descripcion, that.descripcion);
+        return idActividad == that.idActividad && Objects.equals(descripcion, that.descripcion);
     }
 
     @Override

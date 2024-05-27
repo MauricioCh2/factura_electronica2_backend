@@ -16,7 +16,7 @@ public class ProveedorActividadEntity {
     private String idUsuario;
     @Basic
     @Column(name = "id_actividad")
-    private String idActividad;
+    private int idActividad;
 
     public int getIdproveedoractividad() {
         return idproveedoractividad;
@@ -34,15 +34,21 @@ public class ProveedorActividadEntity {
         this.idUsuario = idUsuario;
     }
 
-    public String getIdActividad() {
+    public int getIdActividad() {
         return idActividad;
     }
 
-    public void setIdActividad(String idActividad) {
+    public void setIdActividad(int idActividad) {
         this.idActividad = idActividad;
     }
 
-    public ProveedorActividadEntity(String idUsuario, String idActividad) {
+    public ProveedorActividadEntity(int idproveedoractividad, String idUsuario, int idActividad) {
+        this.idproveedoractividad = idproveedoractividad;
+        this.idUsuario = idUsuario;
+        this.idActividad = idActividad;
+    }
+
+    public ProveedorActividadEntity(String idUsuario, int idActividad) {
         this.idUsuario = idUsuario;
         this.idActividad = idActividad;
     }
@@ -55,7 +61,7 @@ public class ProveedorActividadEntity {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         ProveedorActividadEntity that = (ProveedorActividadEntity) o;
-        return idproveedoractividad == that.idproveedoractividad && Objects.equals(idUsuario, that.idUsuario) && Objects.equals(idActividad, that.idActividad);
+        return idproveedoractividad == that.idproveedoractividad && idActividad == that.idActividad && Objects.equals(idUsuario, that.idUsuario);
     }
 
     @Override
