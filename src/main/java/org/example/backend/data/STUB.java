@@ -57,9 +57,9 @@ public class STUB {
                 new ProveedorActividadEntity("2", 92919),
 
 
-                new ProveedorActividadEntity("4", 62521),
-                new ProveedorActividadEntity("4", 62553),
-                new ProveedorActividadEntity("4", 47610),
+                new ProveedorActividadEntity("111111111", 62521),
+                new ProveedorActividadEntity("111111111", 62553),
+                new ProveedorActividadEntity("111111111", 47610),
                 new ProveedorActividadEntity("4", 88167),
                 new ProveedorActividadEntity("4", 21111),
                 new ProveedorActividadEntity("4", 21121),
