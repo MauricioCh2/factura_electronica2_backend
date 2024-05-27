@@ -31,6 +31,7 @@ public class STUB {
         );
         actividadsComerciales = List.of(
                 //productos
+                new ActividadEntity(1,"Otros"),
                 new ActividadEntity(62521, "Servicios de venta al por menor de frutas y vegetales, prestados a comisión o por contrato"),
                 new ActividadEntity(47610, "Discos, cintas u otros medios físicos de audio musical"),
                 new ActividadEntity(62553, "Servicios de venta al por menor de juegos y juguetes, prestados a comisión o por contrato (bienes que son propiedad de otros)"),

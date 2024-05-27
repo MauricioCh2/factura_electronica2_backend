@@ -2,6 +2,7 @@ package org.example.backend.controller;
 
 import org.example.backend.logic.ProductosEntity;
 import org.example.backend.service.ProductoService;
+import org.example.backend.tools;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,9 @@ public class ProductoController {
         }
 
     @PostMapping("/productos")
-    public void guardarProducto(@RequestBody ProductosEntity producto) { productoService.productoSave(producto);}
+    public void guardarProducto(@RequestBody ProductosEntity producto) {
+        tools.print(tools.RED+ "Producto: "+ producto.getIdProducto() + " "+ producto.getCodigo() + " "+ producto.getNombre() + " "+ producto.getIdActividad() + " ");
+
+        productoService.productoSave(producto);}
 
 }
