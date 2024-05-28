@@ -27,7 +27,7 @@ public class DetalleEntity {
     @Column(name = "descripcion_detalle")
     private String descripcionDetalle;
     @Basic
-    @Column(name = "valor_productos")
+    @Column(name = "valor_producto")
     private double valorProductos;
 
     public int getIdDetalle() {
