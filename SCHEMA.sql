@@ -183,5 +183,3 @@ select * from proveedor_actividad;
 # ALTER TABLE detalles AUTO_INCREMENT = 1;
 # ALTER TABLE facturas AUTO_INCREMENT = 1;
 # ALTER TABLE clientes AUTO_INCREMENT = 1;
-
-
